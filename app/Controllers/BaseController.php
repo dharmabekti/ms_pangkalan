@@ -35,7 +35,7 @@ abstract class BaseController extends Controller
      *
      * @var list<string>
      */
-    protected $helpers = [];
+    protected $helpers = ['auth', 'numberformat', 'dateformat', 'terbilang'];
 
     /**
      * Be sure to declare properties for any property fetch you initialized.
@@ -46,13 +46,55 @@ abstract class BaseController extends Controller
     /**
      * @return void
      */
+    protected $validation;
+    protected $session, $webID;
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+        session();
+        $this->session = \Config\Services::session();
+        $this->session->start();
 
         // Preload any models, libraries, etc, here.
 
         // E.g.: $this->session = \Config\Services::session();
+    }
+
+    protected function outputJson($status, $pesan)
+    {
+        $flag = false;
+        $title = "Gagal";
+        if ($status == "success") {
+            $flag = true;
+            $title = "Berhasil";
+        } elseif ($status == "warning") {
+            $flag = false;
+            $title = "Peringatan";
+        } elseif ($status == "error") {
+            $flag = false;
+            $title = "Gagal";
+        }
+
+        $output['status'] = $flag;
+        $output['title'] = $title;
+        $output['type'] = $status;
+        $output['message'] = $pesan;
+        echo json_encode($output);
+    }
+
+    protected function getRandomChar($length)
+    {
+        $characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ?!.,';
+        $result = '';
+        for ($i = 0; $i < 8; $i++) {
+            $result .= $characters[mt_rand(0, 40)];
+        }
+        return $result;
+    }
+
+    protected function getColumnExcel()
+    {
+        return ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'AA', 'AB', 'AC', 'AD', 'AE', 'AF', 'AG', 'AH', 'AI', 'AJ', 'AK', 'AL', 'AM', 'AN', 'AO', 'AP', 'AQ', 'AR', 'AS', 'AT', 'AU', 'AV', 'AW', 'AX', 'AY', 'AZ'];
     }
 }
