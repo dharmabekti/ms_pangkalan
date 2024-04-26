@@ -1,6 +1,4 @@
 <?= $this->extend('template/index') ?>
-<?= $this->section('head') ?>
-<?= $this->endSection() ?>
 <?= $this->section('content') ?>
 <div class="right_col" role="main">
     <div class="">
@@ -19,8 +17,8 @@
                     <div class="x_title">
                         <div class="nav navbar-right panel_toolbox">
                             <div class="btn-group">
-                                <button class="btn btn-sm btn-primary" type="button"><i class="fa fa-plus-circle"></i>
-                                    Tambah</button>
+                                <a href="<?= route_to('form_pelanggan', "tambah") ?>" class="btn btn-sm btn-primary" type="button"><i class="fa fa-plus-circle"></i>
+                                    Tambah</a>
                                 <button class="btn btn-sm btn-default" type="button"><i class="fa fa-upload"></i>
                                     Import</button>
                             </div>
